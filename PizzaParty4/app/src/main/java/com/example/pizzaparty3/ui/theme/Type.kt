@@ -3,32 +3,26 @@ package com.example.pizzaparty3.ui.theme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
+private val BaseTypography = Typography()
+
+private fun TextStyle.serif() = copy(fontFamily = FontFamily.Serif)
+private fun TextStyle.cursive() = copy(fontFamily = FontFamily.Cursive)
+
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+    displayLarge = BaseTypography.displayLarge.serif(),
+    displayMedium = BaseTypography.displayMedium.serif(),
+    displaySmall = BaseTypography.displaySmall.serif(),
+    headlineLarge = BaseTypography.headlineLarge.serif(),
+    headlineMedium = BaseTypography.headlineMedium.serif(),
+    headlineSmall = BaseTypography.headlineSmall.serif(),
+    titleLarge = BaseTypography.titleLarge.cursive(),
+    titleMedium = BaseTypography.titleMedium.serif(),
+    titleSmall = BaseTypography.titleSmall.serif(),
+    bodyLarge = BaseTypography.bodyLarge.serif(),
+    bodyMedium = BaseTypography.bodyMedium.serif(),
+    bodySmall = BaseTypography.bodySmall.serif(),
+    labelLarge = BaseTypography.labelLarge.cursive(),
+    labelMedium = BaseTypography.labelMedium.serif(),
+    labelSmall = BaseTypography.labelSmall.serif()
 )
