@@ -1,23 +1,27 @@
 package com.example.pizzaparty3.ui
 
-import android.util.Log
-import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.pizzaparty3.ui.theme.PizzaParty3Theme
+
 @Composable
 fun NumPeopleField(onValueChange: (String) -> Unit, numPeople: String = "", modifier: Modifier = Modifier) {
-    Toast.makeText(LocalContext.current, "NumPeopleField recomposed", Toast.LENGTH_SHORT).show()
     TextField(
         label = { Text("Enter number of people in your party:") },
         value = numPeople,
@@ -29,39 +33,41 @@ fun NumPeopleField(onValueChange: (String) -> Unit, numPeople: String = "", modi
 
 @Composable
 fun PizzaPartyScreen(pvm: PizzaPartyViewModel, modifier: Modifier = Modifier) {
-    Column {
-        Text(
-            text = "Pizza Party",
-            modifier = modifier
+    Column(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.Top
+    ) {
+        NumPeopleField(
+            onValueChange = {
+                pvm.numPeopleInput = it
+            },
+            numPeople = pvm.numPeopleInput,
+            modifier = Modifier.fillMaxWidth()
         )
-        NumPeopleField({
-            Log.d("MainActivity", it)
-            pvm.numPeopleInput = it
-            pvm.calculateNumPizzas()
-        }, numPeople = pvm.numPeopleInput
-        )
+        Spacer(modifier = Modifier.height(16.dp))
         RadioButtonGroup(
             {
                 pvm.selectedOption = "Light"
-                pvm.calculateNumPizzas()
             },
             onClickMedium = {
                 pvm.selectedOption = "Medium"
-                pvm.calculateNumPizzas()
             },
             onClickRavenous = {
                 pvm.selectedOption = "Ravenous"
-                pvm.calculateNumPizzas()
             },
-            selectedOption = pvm.selectedOption,
+            selectedOption = pvm.selectedOption
         )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(text = "Total pizzas: ${pvm.totalPizzas}")
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = pvm::calculateNumPizzas) {
+            Text(text = "Calculate")
+        }
     }
 }
 
 @Composable
-fun RadioButtonGroup(onClickLight: ()->Unit, onClickMedium: ()->Unit, onClickRavenous: ()->Unit, selectedOption: String) {
-    Toast.makeText(LocalContext.current, "Radio button recomposed", Toast.LENGTH_SHORT).show()
+fun RadioButtonGroup(onClickLight: () -> Unit, onClickMedium: () -> Unit, onClickRavenous: () -> Unit, selectedOption: String) {
     Text(text = "How hungry are they?")
     Row(verticalAlignment = Alignment.CenterVertically) {
         RadioButton(onClick = onClickLight, selected = (selectedOption == "Light"))
@@ -83,7 +89,7 @@ fun RadioButtonGroup(onClickLight: ()->Unit, onClickMedium: ()->Unit, onClickRav
 @Preview(showBackground = true)
 @Composable
 fun PizzaPartyScreenPreview() {
-    PizzaParty3Theme {
-        PizzaPartyScreen(pvm= PizzaPartyViewModel())
+    PizzaParty3Theme(darkTheme = false, dynamicColor = false) {
+        PizzaPartyScreen(pvm = PizzaPartyViewModel())
     }
 }
